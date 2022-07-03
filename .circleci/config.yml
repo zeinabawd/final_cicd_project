@@ -158,32 +158,35 @@ jobs:
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople" \
-              --output text >> project/.circleci/ansible/inventory.txt
-            cat project/.circleci/ansible/inventory.txt
+              --output text >> ~/inventory.txt
+            cat ~/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - final_cicd_project/.circleci/ansible/inventory.txt
       - destroy_environment    
 
-#   configure-infrastructure:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Configure server
-#           command: |
-#             # Your code here
-#             exit 1
-#       # Here's where you will add some code to rollback on failure      
+  # configure-infrastructure:
+  #   docker:
+  #     - image: python:3.10.4
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
+  #     - attach_workspace:
+  #         at: ~/
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # install the dependencies needed for your playbook
+  #           pip install pip --upgrade
+  #           pip install ansible
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           cat ~/inventory.txt
+  #           ansible-playbook -i ~/inventory.txt configure-server.yml
+  #     - destroy_environment     
 
 #   run-migrations:
 #     docker:
