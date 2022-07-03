@@ -2,10 +2,12 @@ A public git repository with your project code. [URL01]
 https://github.com/zeinabawd/final_cicd_project
 
 Evidence of code-based CI/CD configuration in the form of yaml files in your git repository.
+https://github.com/zeinabawd/final_cicd_project/blob/master/.circleci/config.yml
 
 Console output of various pre-deploy job failure scenarios:
 
 Build Jobs that failed because of compile errors. [SCREENSHOT01]
+
 Failed unit tests. [SCREENSHOT02]
 Failure because of vulnerable packages. [SCREENSHOT03]
 An alert from one of your failed builds. [SCREENSHOT04]
