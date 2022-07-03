@@ -171,28 +171,27 @@ jobs:
             - inventory.txt
       - destroy_environment    
 
-  # configure-infrastructure:
-  #   docker:
-  #     - image: python:3.10.4
-  #   steps:
-  #     - checkout
-  #     - add_ssh_keys:
-  #         fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
-  #     - attach_workspace:
-  #         at: ~/
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           # install the dependencies needed for your playbook
-  #           pip install pip --upgrade
-  #           pip install ansible
-  #     - run:
-  #         name: Configure server
-  #         command: |
-  #           cat ~/inventory.txt          
-            # cd .circleci/ansible
-            # ansible-playbook -i ~/inventory.txt configure-server.yml
-  #     - destroy_environment     
+  configure-infrastructure:
+    docker:
+      - image: python:3.10.4
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            # install the dependencies needed for your playbook
+            pip install pip --upgrade
+            pip install ansible
+      - run:
+          name: Configure server
+          command: |
+            cat ~/inventory.txt          
+            ansible-playbook -i ~/inventory.txt .circleci/ansible/configure-server.yml
+      - destroy_environment     
 
 #   run-migrations:
 #     docker:
