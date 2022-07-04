@@ -187,10 +187,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            # install the dependencies needed for your playbook
-            pip install awscli
             pip install pip --upgrade
-            pip install ansible
+            pip install ansible awscli
       - run:
           name: Configure server
           command: |
