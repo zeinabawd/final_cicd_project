@@ -29,7 +29,7 @@ commands:
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS=$(curl --insecure https://kvdb.io/68tnndnGB5ESvWjY1Z5397/migration_${CIRCLE_WORKFLOW_ID:0:7})
-            if [ $SUCCESS -eq 1 ]
+            if [ $SUCCESS == 1 ];
             then
               cd ~/project/backend
               npm install
@@ -129,70 +129,70 @@ jobs:
   #           npm audit fix --force
   #           npm audit --audit-level=critical
 
-  deploy-infrastructure:
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Install tar utility to enable persist_to_workspace
-          command: |
-            yum install -y tar gzip
-      - run:
-          name: Ensure back-end infrastructure exists
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
-              --tags project=udapeople \
-              --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
-              --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} 
-      - run:
-          name: Ensure front-end infrastructure exist
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --tags project=udapeople  \
-              --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} \
-              --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} 
-      - run:
-          name: Create inventory file
-          command: |
-            touch ~/inventory.txt
-            echo "[web]" > ~/inventory.txt
-      - run:
-          name: Add back-end ip to ansible inventory
-          command: |
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --output text >> ~/inventory.txt
-            cat ~/inventory.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - inventory.txt
-      - destroy_environment    
+  # deploy-infrastructure:
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install tar utility to enable persist_to_workspace
+  #         command: |
+  #           yum install -y tar gzip
+  #     - run:
+  #         name: Ensure back-end infrastructure exists
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file .circleci/files/backend.yml \
+  #             --tags project=udapeople \
+  #             --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
+  #             --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} 
+  #     - run:
+  #         name: Ensure front-end infrastructure exist
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file .circleci/files/frontend.yml \
+  #             --tags project=udapeople  \
+  #             --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} \
+  #             --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} 
+  #     - run:
+  #         name: Create inventory file
+  #         command: |
+  #           touch ~/inventory.txt
+  #           echo "[web]" > ~/inventory.txt
+  #     - run:
+  #         name: Add back-end ip to ansible inventory
+  #         command: |
+  #           aws ec2 describe-instances \
+  #             --query 'Reservations[*].Instances[*].PublicIpAddress' \
+  #             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+  #             --output text >> ~/inventory.txt
+  #           cat ~/inventory.txt
+  #     - persist_to_workspace:
+  #         root: ~/
+  #         paths:
+  #           - inventory.txt
+  #     - destroy_environment    
 
-  configure-infrastructure:
-    docker:
-      - image: python:3.10.4
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            pip install pip --upgrade
-            pip install ansible awscli
-      - run:
-          name: Configure server
-          command: |
-            cat ~/inventory.txt          
-            ansible-playbook -i ~/inventory.txt .circleci/ansible/configure-server.yml
-      - destroy_environment     
+  # configure-infrastructure:
+  #   docker:
+  #     - image: python:3.10.4
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
+  #     - attach_workspace:
+  #         at: ~/
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           pip install pip --upgrade
+  #           pip install ansible awscli
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           cat ~/inventory.txt          
+  #           ansible-playbook -i ~/inventory.txt .circleci/ansible/configure-server.yml
+  #     - destroy_environment     
 
   run-migrations:
     docker:
@@ -354,15 +354,15 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      - deploy-infrastructure
-          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          # filters:
-          #   branches:
-          #     only: [master]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
+      # - deploy-infrastructure:
+      #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     filters:
+      #       branches:
+      #         only: [master]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      - run-migrations
+          #requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
       # - deploy-backend:
