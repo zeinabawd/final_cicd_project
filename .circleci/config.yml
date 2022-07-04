@@ -29,7 +29,7 @@ commands:
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS=$(curl --insecure https://kvdb.io/68tnndnGB5ESvWjY1Z5397/migration_${CIRCLE_WORKFLOW_ID:0:7})
-            if(( $SUCCESS==1 )); 
+            if [ $SUCCESS==1 ]
             then
               cd ~/project/backend
               npm install
@@ -208,8 +208,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
+      # - restore_cache:
+      #     keys: [backend-build]
       - run:
           name: Install awscli
           command: |
@@ -218,7 +218,7 @@ jobs:
           name: Run migrations
           command: |
               cd backend
-              # npm install
+              npm install
               npm fund
               npm audit fix --audit-level=critical --force
               npm run migrations > migrations_dump.txt
