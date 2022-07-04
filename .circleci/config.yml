@@ -29,7 +29,7 @@ commands:
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS=$(curl --insecure https://kvdb.io/68tnndnGB5ESvWjY1Z5397/migration_${CIRCLE_WORKFLOW_ID:0:7})
-            if [ $SUCCESS == 1 ];
+            if [[ $SUCCESS == 1 ]];
             then
               cd ~/project/backend
               npm install
@@ -208,19 +208,11 @@ jobs:
       - run:
           name: Run migrations
           command: |
-              echo $TYPEORM_CONNECTION
-              echo $TYPEORM_ENTITIES
-              echo $TYPEORM_HOST
-              echo $TYPEORM_PORT
-              echo $TYPEORM_USERNAME
-              echo $TYPEORM_PASSWORD
-              echo $TYPEORM_DATABASE
-              echo $TYPEORM_MIGRATIONS
-              echo $TYPEORM_MIGRATIONS_DIR
               cd backend
               npm install
               npm fund
               npm audit fix --audit-level=critical --force
+              npm audit fix --audit-level=critical
               npm run migrations > migrations_dump.txt
       - run:
           name: Send migration results to kvdb
