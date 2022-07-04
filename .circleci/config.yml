@@ -6,12 +6,16 @@ commands:
     # parameters:
     steps:
       - run:
-          name: Destroy environment
-          when: on_fail
-          command: |
-            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
-            # aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-            aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+        name: Destroy environment
+        when: on_fail
+        command: |
+          aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+          aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+      # - run:
+      #   name: Delete S3 on failure
+      #   when: on_fail
+      #   command: |
+      #     aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
 #   revert-migrations:
 #     description: Revert the last migration if successfully run in the current workflow.
@@ -109,9 +113,6 @@ jobs:
             npm install oauth-sign@^0.9.0
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
-      - save_cache:
-          paths: [scan/oauth_modules]
-          key: oauth_scan
 
   scan-backend:
     docker:
