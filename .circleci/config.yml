@@ -217,7 +217,7 @@ jobs:
               if grep -q "has been executed successfully." ~/migrations_dump.txt
               then
                 # If you are using kvdb.io, generate the bucket ID "68tnndnGB5ESvWjY1Z5397" in your local terminal first
-                curl https://kvdb.io/68tnndnGB5ESvWjY1Z5397/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                curl -k https://kvdb.io/68tnndnGB5ESvWjY1Z5397/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi
       - destroy_environment
       - revert_migrations
