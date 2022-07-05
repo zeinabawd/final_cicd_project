@@ -228,7 +228,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt-get install npm
+            apt-get install npm
       - run:
           name: Get backend url
           command: |
@@ -260,7 +260,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt-get install npm
+            apt-get install npm
       - add_ssh_keys:
           fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
       - attach_workspace:
