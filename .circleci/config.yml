@@ -28,7 +28,7 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS=$(curl --insecure https://kvdb.io/68tnndnGB5ESvWjY1Z5397/migration_${CIRCLE_WORKFLOW_ID:0:7})
+            SUCCESS=$(curl --insecure https://kvdb.io/4VnmEQtb22mcDLVUwHnG5q/migration_$\{CIRCLE_WORKFLOW_ID:0:7\})
             if [[ $SUCCESS == 1 ]];
             then
               cd ~/project/backend
@@ -215,7 +215,7 @@ jobs:
               if grep -q "has been executed successfully." ~/migrations_dump.txt
               then
                 # If you are using kvdb.io, generate the bucket ID "4VnmEQtb22mcDLVUwHnG5q" in your local terminal first
-                curl -k https://kvdb.io/4VnmEQtb22mcDLVUwHnG5q/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
+                curl --insecure https://kvdb.io/4VnmEQtb22mcDLVUwHnG5q/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
               fi
       - destroy_environment
       - revert_migrations
@@ -258,6 +258,8 @@ jobs:
       - image: python:3.10.4
     steps:
       - checkout
+      - restore_cache:
+          keys: [backend-build]
       - add_ssh_keys:
           fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
       - attach_workspace:
@@ -271,10 +273,8 @@ jobs:
           name: Deploy backend
           command: |
             cd backend
-            npm i
             npm run build
             cd ..
-            # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
             echo "Contents  of the inventory.txt file is -------"
             cat ~/inventory.txt
