@@ -270,8 +270,10 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y awscli python3.10 tar
-            sudo apt-get install -y ansible
+            sudo apt install software-properties-common -y
+            sudo add-apt-repository ppa:deadsnakes/ppa
+            sudo apt-get install -y python3.10
+            sudo apt-get install -y ansible awscli tar
       - run:
           name: Deploy backend
           command: |
