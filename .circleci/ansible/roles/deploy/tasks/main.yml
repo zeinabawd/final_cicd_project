@@ -20,6 +20,7 @@
     pm2 stop default
     pm2 start npm -- start
     #pm2 start main.js
+  register: execute_node
 
 - name:
   debug:
