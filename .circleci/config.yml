@@ -270,7 +270,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y awscli python-3.10.4 tar
+            sudo apt-get install -y awscli python3.10.4 tar
             sudo apt-get install -y ansible
       - run:
           name: Deploy backend
