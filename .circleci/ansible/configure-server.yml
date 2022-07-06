@@ -12,6 +12,16 @@
     - ansible_host_key_checking: false
     - ansible_stdout_callback: yaml
 
+  pre_tasks:
+    - name: "wait 600 seconds for target connection to become reachable/usable."
+      ansible.builtin.wait_for_connection:
+        timeout: 600
+
+    # - name: "install python for Ansible."
+    #   become: true
+    #   command: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
+    #   changed_when: false
+
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
