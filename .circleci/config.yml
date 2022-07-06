@@ -270,10 +270,12 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
-            sudo apt install software-properties-common -y
-            sudo add-apt-repository ppa:deadsnakes/ppa
-            sudo apt-get install -y python3.10
+            # sudo apt install software-properties-common -y
+            # sudo add-apt-repository ppa:deadsnakes/ppa
+            sudo apt-get install -y python3
+            python3 --version
             sudo apt-get install -y ansible awscli tar
+            ansible --version
       - run:
           name: Deploy backend
           command: |
@@ -284,7 +286,6 @@ jobs:
             # tar -C backend -czvf artifact.tar.gz .
             # echo "Contents  of the inventory.txt file is -------"
             # cat ~/inventory.txt
-            ansible-playbook --version
             ansible-playbook .circleci/ansible/deploy-backend.yml --syntax-check
             # ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
       - destroy_environment  
