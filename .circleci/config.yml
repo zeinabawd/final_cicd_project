@@ -272,7 +272,7 @@ jobs:
             sudo apt-get update
             # sudo apt-get install -y python3
             sudo apt-get install -y awscli tar
-            curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py  
+            curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o get-pip.py  
             python3 get-pip.py --force-reinstall     
             python3 -m pip install --user ansible-core==2.13.1
             ansible --version
