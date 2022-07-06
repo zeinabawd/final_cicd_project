@@ -305,7 +305,7 @@ jobs:
           name: Backend smoke test.
           command: |
             cat ~/api_url.txt
-            export API_URL=$(cat api_url.txt)
+            export API_URL=$(cat ~/api_url.txt)
             if curl -s "${API_URL}/api/status" | grep "ok"
               then
                   exit 0
