@@ -5,16 +5,16 @@ commands:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     steps:
       - run:
+        name: Delete S3 on failure
+        when: on_fail
+        command: |
+          aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      - run:
           name: Destroy environment
           when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
-      # - run:
-      #   name: Delete S3 on failure
-      #   when: on_fail
-      #   command: |
-      #     aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
   revert_migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -228,7 +228,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            curl -fsSL https://rpm.nodesource.com/setup_13.x | bash - && yum -y install nodejs tar
+            curl -fsSL https://rpm.nodesource.com/setup_13.x | bash - && yum -y install nodejs tar gzip
             # curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
             # yum install yarn
             # yum install gcc-c++ make
