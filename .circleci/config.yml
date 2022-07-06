@@ -228,7 +228,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            curl -fsSL https://rpm.nodesource.com/setup_13.x | bash - && yum -y install nodejs
+            curl -fsSL https://rpm.nodesource.com/setup_13.x | bash - && yum -y install nodejs tar
             # curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
             # yum install yarn
             # yum install gcc-c++ make
