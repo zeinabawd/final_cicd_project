@@ -265,7 +265,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install pip --upgrade
-            pip install ansible awscli nodeenv
+            pip install ansible awscli nodeenv npm nodejs
       - run:
           name: Deploy backend
           command: |
