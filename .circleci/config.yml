@@ -188,7 +188,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            cat ~/inventory.txt
+            # cat ~/inventory.txt
             ansible-playbook --version       
             ansible-playbook -i ~/inventory.txt .circleci/ansible/configure-server.yml
       - destroy_environment     
@@ -280,7 +280,7 @@ jobs:
             cd ..
             tar -C backend -czvf artifact.tar.gz .
             echo "Contents  of the inventory.txt file is -------"
-            cat ~/inventory.txt
+            # cat ~/inventory.txt
             ansible-playbook --version
             ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
       - destroy_environment  
