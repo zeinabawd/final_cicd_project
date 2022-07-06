@@ -270,12 +270,8 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update -y
-            # sudo apt-get install -y python3.10
+            sudo apt-get install -y python3
             sudo apt-get install -y awscli tar ansible
-            # curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py  
-            # python3 get-pip.py --force-reinstall     
-            # python3 -m pip install --user ansible-core==2.13.1
-            # ansible --version
       - run:
           name: Deploy backend
           command: |
@@ -283,10 +279,9 @@ jobs:
             npm install
             npm run build
             cd ..
-            tar -C backend -czvf artifact.tar.gz .
-            echo "Contents  of the inventory.txt file is -------"
+            tar -C backend -czvf artifact.tar.gz .circleci/ansible/roles/deploy/files
+            echo "Contents  of the inventory.txt file is:"
             cat ~/inventory.txt
-            # ansible-playbook .circleci/ansible/deploy-backend.yml --syntax-check
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
       - destroy_environment  
       - revert_migrations  
