@@ -188,7 +188,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            # cat ~/inventory.txt
+            cat ~/inventory.txt
             ansible-playbook --version       
             ansible-playbook -i ~/inventory.txt .circleci/ansible/configure-server.yml
       - destroy_environment     
@@ -270,19 +270,20 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y awscli ansible tar
+            sudo apt-get install -y awscli python3 ansible tar
       - run:
           name: Deploy backend
           command: |
-            cd backend
-            npm install
-            npm run build
-            cd ..
-            tar -C backend -czvf artifact.tar.gz .
-            echo "Contents  of the inventory.txt file is -------"
+            # cd backend
+            # npm install
+            # npm run build
+            # cd ..
+            # tar -C backend -czvf artifact.tar.gz .
+            # echo "Contents  of the inventory.txt file is -------"
             # cat ~/inventory.txt
             ansible-playbook --version
-            ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
+            ansible-playbook .circleci/ansible/deploy-backend.yml --syntax-check
+            # ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
       - destroy_environment  
       - revert_migrations  
 
@@ -377,7 +378,7 @@ workflows:
       #     filters:
       #       branches:
       #         only: [master]
-      - configure-infrastructure
+      # - configure-infrastructure:
           # requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
