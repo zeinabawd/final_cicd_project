@@ -270,7 +270,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y awscli ansible
+            sudo apt-get install -y awscli ansible tar
       - run:
           name: Deploy backend
           command: |
