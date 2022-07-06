@@ -238,8 +238,7 @@ jobs:
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
-            echo ${API_URL}" > ~/api_url.txt
-            echo "API_URL:"
+            echo ${API_URL} > ~/api_url.txt
             cat ~/api_url.txt
       - run:
           name: Deploy frontend objects
@@ -282,7 +281,6 @@ jobs:
             cd ..
             tar -C backend -czvf artifact.tar.gz .
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/files
-            ls ~/project/.circleci/ansible/roles/deploy/files
             echo "Contents  of the inventory.txt file is:"
             cat ~/inventory.txt
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
