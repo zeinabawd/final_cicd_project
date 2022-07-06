@@ -256,7 +256,8 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: python:3.10.4
+      # - image: python:3.10.4
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -270,7 +271,6 @@ jobs:
           command: |
             pip install pip --upgrade
             pip install ansible awscli
-            curl -fsSL https://rpm.nodesource.com/setup_13.x | bash - && yum -y install nodejs
       - run:
           name: Deploy backend
           command: |
