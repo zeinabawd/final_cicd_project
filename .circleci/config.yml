@@ -269,8 +269,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            sudo apt-get update
+            sudo apt-get install -y awscli
+            sudo apt-get install -y python3-pip
             pip install pip --upgrade
-            pip install ansible awscli
+            pip install ansible
       - run:
           name: Deploy backend
           command: |
