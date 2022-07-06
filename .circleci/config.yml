@@ -278,8 +278,8 @@ jobs:
             cd backend
             npm install
             npm run build
-            tar -czvf artifact.tar.gz .
             cd ..
+            tar -C backend -czvf artifact.tar.gz .
             ls
             cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
             echo "Contents  of the inventory.txt file is:"
