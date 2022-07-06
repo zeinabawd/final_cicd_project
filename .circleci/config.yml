@@ -266,7 +266,7 @@ jobs:
           command: |
             pip install pip --upgrade
             pip install ansible awscli npm
-            # apk add --update curl
+            apk add --update npm
       - run:
           name: Deploy backend
           command: |
