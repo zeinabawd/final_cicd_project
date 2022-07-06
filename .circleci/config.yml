@@ -271,6 +271,7 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install -y awscli python3 ansible tar
+            sudo apt-get install -y ansible
       - run:
           name: Deploy backend
           command: |
