@@ -230,9 +230,6 @@ jobs:
           name: Install dependencies
           command: |
             curl -fsSL https://rpm.nodesource.com/setup_13.x | bash - && yum -y install nodejs tar gzip
-            # curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-            # yum install yarn
-            # yum install gcc-c++ make
       - run:
           name: Get backend url
           command: |
@@ -252,6 +249,10 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - frontend/.env
       - destroy_environment  
       - revert_migrations 
                     
@@ -290,22 +291,23 @@ jobs:
 
   smoke-test:
     docker:
-      - image: amazon/aws-cli
+      - image: circleci/node:13.8.0
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
-            # your code here
-      - run:
-          name: Get backend url
-          command: |
-              # Fetch and prepare the BACKEND_IP env var
-              export API_URL="http://${BACKEND_IP}:3030"
-              echo "${API_URL}"
+            sudo apt-get update -y
+            sudo apt-get install -y awscli
       - run:
           name: Backend smoke test.
           command: |
+            # Fetch and prepare the BACKEND_IP env var
+            cat ~/frontend/.env
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
               then
                   return 0
