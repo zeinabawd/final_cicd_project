@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs: 
+  node: circleci/node@5.0.2
+
 commands:
   destroy_environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -257,7 +260,7 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.10.4
     steps:
       - checkout
       - restore_cache:
@@ -266,23 +269,23 @@ jobs:
           fingerprints: ["09:78:0e:8d:fe:7f:11:98:0e:f6:ba:af:df:f3:a5:4a"] # You can get this ID in the section where you registered the SSH Key
       - attach_workspace:
           at: ~/
+      - node/install-packages:
+          # cache-path: ~/project/node_modules
+          override-ci-command: npm install
+      - run: sudo npm install -g npm@latest
       - run:
           name: Install dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y python3
-            # python3 --version
-            # sudo apt install software-properties-common -y
-            # sudo apt-add-repository ppa:ansible/ansible
-            # sudo apt update
+            # sudo apt-get install -y python3
             sudo apt-get install -y ansible awscli tar
             ansible --version
       - run:
           name: Deploy backend
           command: |
-            # cd backend
-            # npm install
-            # npm run build
+            cd backend
+            npm install
+            npm run build
             # cd ..
             # tar -C backend -czvf artifact.tar.gz .
             # echo "Contents  of the inventory.txt file is -------"
