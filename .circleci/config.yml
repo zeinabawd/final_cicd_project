@@ -353,6 +353,7 @@ jobs:
 
             echo OldWorkflowID: "${OldWorkflowID}"
             echo Current Workflow ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+            aws --version   
       - persist_to_workspace:
           root: ~/
           paths:
