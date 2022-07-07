@@ -126,7 +126,6 @@ jobs:
             npm install oauth-sign@^0.9.0
             npm audit fix --audit-level=critical --force
             npm audit fix --force
-            # npm audit fix --force --production
             npm audit --audit-level=critical
 
   deploy-infrastructure:
@@ -240,6 +239,8 @@ jobs:
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            cat frontend/.env
             echo ${API_URL} > ~/api_url.txt
             cat ~/api_url.txt
       - run:
@@ -248,7 +249,7 @@ jobs:
             cd frontend
             npm install -D webpack-cli
             npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist/* package*
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - persist_to_workspace:
           root: ~/
