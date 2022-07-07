@@ -125,8 +125,7 @@ jobs:
             npm install
             npm install oauth-sign@^0.9.0
             npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            # npx npm-force-resolutions
+            npm audit fix --audit-level=high --force
             npm audit --audit-level=critical
 
   deploy-infrastructure:
