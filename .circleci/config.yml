@@ -283,6 +283,7 @@ jobs:
             npm run build
             tar -czvf artifact.tar.gz dist/* package*
             cp artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/files
+            cd ..
             echo "Contents  of the inventory.txt file is:"
             cat ~/inventory.txt
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ~/inventory.txt .circleci/ansible/deploy-backend.yml
