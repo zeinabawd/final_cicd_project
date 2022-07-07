@@ -30,9 +30,6 @@
     - TYPEORM_ENTITIES: ./modules/domain/**/*.entity{.ts,.js}
     - TYPEORM_MIGRATIONS: ./migrations/.*ts
     - TYPEORM_MIGRATIONS_DIR: ./migrations
-    # - TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
-    # - TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
-    # - TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
     - NODE_ENV: production 
     - VERSION: "1"
 
