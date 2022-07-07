@@ -106,9 +106,9 @@ jobs:
           name: Front-end scan
           command: |
             cd frontend
-            npm install oauth-sign@^0.9.0
+            # npm install oauth-sign@^0.9.0
             npm audit fix --audit-level=critical --force
-            npm audit fix --force
+            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
   scan-backend:
@@ -123,10 +123,10 @@ jobs:
           command: |
             cd backend
             npm install
-            npm install oauth-sign@^0.9.0
+            # npm install oauth-sign@^0.9.0
             npm audit fix --audit-level=critical --force
-            npm audit fix --force
-            npx npm-force-resolutions
+            npm audit fix --audit-level=critical --force
+            # npx npm-force-resolutions
             npm audit --audit-level=critical
 
   deploy-infrastructure:
@@ -326,20 +326,21 @@ jobs:
       # - revert_migrations  
 
 
-#   cloudfront-update:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Update cloudfront distribution
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  # cloudfront-update:
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Update cloudfront distribution
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file .circleci/files/cloudfront.yml \
+  #             --stack-name CloudFrontStack \
+  #             --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+  #             --tags project=udapeople
+  #     - destroy_environment  
+  #     - revert_migrations  
 
 # cleanup:
 #     docker:
