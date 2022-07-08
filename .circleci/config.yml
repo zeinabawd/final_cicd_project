@@ -346,7 +346,6 @@ jobs:
             --query "Exports[?Name==\`WorkflowID\`].Value" \
             --no-paginate --output text)
             echo $OldWorkflowID > ~/OldWorkflowID.txt
-            cat ~/OldWorkflowID.txt
 
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
@@ -354,8 +353,8 @@ jobs:
             --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
             --tags project=udapeople
 
-            echo OldWorkflowID: "${OldWorkflowID}"
-            echo Current Workflow ID: "udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
+            echo OldWorkflowID: "$(cat ~/OldWorkflowID.txt)"
+            echo Current Workflow ID: "${CIRCLE_WORKFLOW_ID:0:7}"
       - persist_to_workspace:
           root: ~/
           paths:
@@ -368,6 +367,11 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get update -y
+            sudo apt-get install -y tar gzip
       - attach_workspace:
           at: ~/
       - run:
