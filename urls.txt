@@ -2,13 +2,13 @@ Public Url to GitHub repository (not private) [URL01]
 https://github.com/zeinabawd/final_cicd_project
 
 Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
+http://udapeople-d5ca006.s3.amazonaws.com/index.html#/employees
 
 Job failed because of compile errors. [SCREENSHOT01]
 Job failed because of unit tests. [SCREENSHOT02]
 Job that failed because of vulnerable packages. [SCREENSHOT03]
 An alert from one of your failed builds. [SCREENSHOT04]
 Appropriate job failure for infrastructure creation. [SCREENSHOT05]
-
 Appropriate job failure for the smoke test job. [SCREENSHOT06]
 Successful rollback after a failed smoke test. [SCREENSHOT07]
 Successful promotion job. [SCREENSHOT08]
