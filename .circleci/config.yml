@@ -355,8 +355,7 @@ jobs:
             --tags project=udapeople
 
             echo OldWorkflowID: "${OldWorkflowID}"
-            echo Current Workflow ID: "${CIRCLE_WORKFLOW_ID:0:7}"
-            aws --version   
+            echo Current Workflow ID: "udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
       - persist_to_workspace:
           root: ~/
           paths:
@@ -378,7 +377,7 @@ cleanup:
             cat ~/OldWorkflowID.txt
             export OldWorkflowID=$(cat ~/OldWorkflowID.txt)
             echo OldWorkflowID: "${OldWorkflowID}"
-            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+            echo CIRCLE_WORKFLOW_ID "udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
 
             # Fetch the stack names          
             # export STACKS=($(aws cloudformation list-stacks \
@@ -388,7 +387,7 @@ cleanup:
       - run:
           name: Remove old stacks and files
           command: |
-            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
+            if [[ "udapeople-${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
             then
               aws s3 rm s3://udapeople-${OldWorkflowID} --recursive
               aws cloudformation delete-stack --stack-name udapeople-backend-${OldWorkflowID}
@@ -425,5 +424,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - cleanup:
+          requires: [cloudfront-update]
