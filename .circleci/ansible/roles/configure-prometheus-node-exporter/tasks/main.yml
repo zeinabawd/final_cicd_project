@@ -1,3 +1,8 @@
+- name: Ensure group "node_exporter" exists
+  group:
+    name: node_exporter
+    state: present
+
 - name: "Add node_exporter user"
   user:
     name: node_exporter
