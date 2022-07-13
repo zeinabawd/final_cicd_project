@@ -4,6 +4,14 @@ https://github.com/zeinabawd/final_cicd_project
 Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
 http://udapeople-d5ca006.s3.amazonaws.com/index.html#/employees
 
+URL of deployed and functioning front-end application in CloudFront (aka, your production front-end). [URL03]
+http://d3qzsih6c1ova9.cloudfront.net
+
+URL of a healthy backend application. The backend endpoint status should show a healthy response. [URL04]
+http://52.90.116.57:3030/api/status
+
+URL of your Prometheus server showing UP state [URL05]
+
 Job failed because of compile errors. [SCREENSHOT01]
 Job failed because of unit tests. [SCREENSHOT02]
 Job that failed because of vulnerable packages. [SCREENSHOT03]
